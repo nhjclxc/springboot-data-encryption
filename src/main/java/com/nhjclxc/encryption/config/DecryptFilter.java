@@ -43,6 +43,7 @@ public class DecryptFilter implements Filter {
                 String[] originalParameter = parameterMap.get(k);
                 String[] decryptArr = new String[originalParameter.length];
                 for (int i = 0; i < originalParameter.length; i++) {
+                    System.out.println(originalParameter[i]);
                     decryptArr[i] = sm4.decryptStr(originalParameter[i], StandardCharsets.UTF_8);
                 }
                 parameterMap.put(k, decryptArr);
@@ -67,7 +68,6 @@ public class DecryptFilter implements Filter {
             String response = new String(responseWrapper.toByteArray());
             if (encryptFlag) {
                 response = sm4.encryptBase64(response);
-                responseWrapper.addHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
                 responseWrapper.addHeader(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, ENCRYPT_FLAG);
                 responseWrapper.setHeader(ENCRYPT_FLAG, URLEncoder.encode("true", StandardCharsets.UTF_8.name()));
             }
